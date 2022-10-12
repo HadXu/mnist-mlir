@@ -30,6 +30,11 @@ print(x)
 mlir-opt mnist-mlir-runner.mlir --lower-affine -convert-scf-to-cf -convert-linalg-to-llvm -convert-memref-to-llvm -convert-func-to-llvm -reconcile-unrealized-casts | mlir-cpu-runner -O3 -e entry -entry-point-result=void -shared-libs=/home/lay/work/llvm-study/llvm-project/build/lib/libmlir_runner_utils.so
 ```
 
+## 5. 另一种方式运行
+```
+mlir-opt mnist-12.onnx-global.mlir --lower-affine -convert-scf-to-cf -convert-linalg-to-llvm -convert-memref-to-llvm -llvm-request-c-wrappers -convert-func-to-llvm  -reconcile-unrealized-casts | mlir-translate --mlir-to-llvmir | clang -x ir - -fPIC -c -o mnist-global.o
+c++ mnist.cpp Container.cpp mnist-global.o
+```
 
 ## Reference
 ```
